@@ -1,4 +1,7 @@
+// components/header.tsx
 import React from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { Button } from "./ui/button";
 import {
   PenBox,
@@ -8,7 +11,6 @@ import {
   ChevronDown,
   StarsIcon,
 } from "lucide-react";
-import Link from "next/link";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import {
   DropdownMenu,
@@ -16,31 +18,30 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Image from "next/image";
 import { checkUser } from "@/lib/checkUser";
+import { ThemeToggle } from "./theme-toggle";
 
 export default async function Header() {
   await checkUser();
 
   return (
-    <header className="fixed top-0 w-full border-b bg-background/80 backdrop-blur-md z-50 supports-[backdrop-filter]:bg-background/60">
+    <header className="realtive top-0 w-full bg-background/80 z-50 backdrop-filter-md supports-[backdrop-filter]:bg-transparent">
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center space-x-3">
           <Link href="/">
             <Image
-              src={"/icons8-totoro-100.png"}
+              src="/icons8-totoro-100.png"
               alt="Sensei Logo"
               width={48}
               height={48}
               className="h-12 w-12 object-contain"
             />
           </Link>
-          <span className="gradient-title text-2xl font-bold flex-row select-none">
+          <span className="gradient-title text-2xl font-bold select-none font-tektur">
             Sensei
           </span>
         </div>
 
-        {/* Action Buttons */}
         <div className="flex items-center space-x-2 md:space-x-4">
           <SignedIn>
             <Link href="/dashboard">
@@ -56,7 +57,10 @@ export default async function Header() {
               </Button>
             </Link>
 
-            {/* Growth Tools Dropdown */}
+            {/* 🌗 Theme Toggle */}
+            <ThemeToggle />
+
+            {/* 🌟 Growth Tools Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button className="flex items-center gap-2">
