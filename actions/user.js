@@ -16,21 +16,25 @@ export async function updateUser(data) {
   if (!user) throw new Error("User not found");
 
   try {
-    // Start a transaction to handle both operations
+    // First check if industry exists (outside transaction)
+    let industryInsight = await db.industryInsight.findUnique({
+      where: {
+        industry: data.industry,
+      },
+    });
+
+    // If industry doesn't exist, generate insights (outside transaction)
+    let insights;
+    if (!industryInsight) {
+      insights = await generateAIInsights(data.industry);
+    }
+
+    // Now do DB operations in a transaction
     const result = await db.$transaction(
       async (tx) => {
-        // First check if industry exists
-        let industryInsight = await tx.industryInsight.findUnique({
-          where: {
-            industry: data.industry,
-          },
-        });
-
-        // If industry doesn't exist, create it with default values
+        // If industry doesn't exist, create it
         if (!industryInsight) {
-          const insights = await generateAIInsights(data.industry);
-
-          industryInsight = await db.industryInsight.create({
+          industryInsight = await tx.industryInsight.create({
             data: {
               industry: data.industry,
               ...insights,
