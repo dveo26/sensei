@@ -22,26 +22,27 @@ export async function generateQuiz() {
   if (!user) throw new Error("User not found");
 
   const prompt = `
-   Generate 10 most common technical interview questions which are asked by comapanies nowadays  for a ${
-      user.industry 
-    } professional${
+  Generate 10 of the most common technical interview questions asked by companies nowadays for a ${
+    user.industry
+  } professional${
     user.skills?.length ? ` with expertise in ${user.skills.join(", ")}` : ""
-  } and make sure you are not generating repeated questions in every quiz.
-    
-    Each question should be multiple choice with 4 options.
-    
-    Return the response in this JSON format only, no additional text:
-    {
-      "questions": [
-        {
-          "question": "string",
-          "options": ["string", "string", "string", "string"],
-          "correctAnswer": "string",
-          "explanation": "string"
-        }
-      ]
-    }
-  `;
+  }${user.experience ? ` having ${user.experience} of experience` : ""}. 
+  Ensure that questions are appropriate for the candidate's experience level and that no questions are repeated across different quizzes.
+
+  Each question should be multiple choice with 4 options.
+
+  Return the response in this JSON format only, no additional text:
+  {
+    "questions": [
+      {
+        "question": "string",
+        "options": ["string", "string", "string", "string"],
+        "correctAnswer": "string",
+        "explanation": "string"
+      }
+    ]
+  }
+`;
 
   try {
     const result = await model.generateContent(prompt);
