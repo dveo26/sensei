@@ -9,7 +9,7 @@ const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
 export const generateAIInsights = async (industry) => {
   const prompt = `
-          Analyze the current state of the ${industry} industry and provide insights in ONLY the following JSON format without any additional notes or explanations:
+          Analyze the current state of the ${industry} industry in the Indian Job Market and provide insights in ONLY the following JSON format without any additional notes or explanations:
           {
             "salaryRanges": [
               { "role": "string", "min": number, "max": number, "median": number, "location": "string" }
@@ -24,6 +24,7 @@ export const generateAIInsights = async (industry) => {
           
           IMPORTANT: Return ONLY the JSON. No additional text, notes, or markdown formatting.
           Include at least 5 common roles for salary ranges.
+          Make sure the salary ranges are in Indian National Rupees.
           Growth rate should be a percentage.
           Include at least 5 skills and trends.
         `;
