@@ -22,7 +22,7 @@ export async function generateQuiz() {
   if (!user) throw new Error("User not found");
 
   const prompt = `
-  Generate 10 of the most common technical interview questions asked by companies nowadays for a ${
+  Generate 30 of the most common technical interview questions asked by companies nowadays for a ${
     user.industry
   } professional${
     user.skills?.length ? ` with expertise in ${user.skills.join(", ")}` : ""
